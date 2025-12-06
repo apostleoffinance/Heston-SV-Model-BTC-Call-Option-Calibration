@@ -7,6 +7,12 @@
 
 A comprehensive implementation of the Heston stochastic volatility model for pricing Bitcoin options, featuring both a command-line interface and a full-stack web dashboard with real-time market data.
 
+## 🎬 Demo
+
+[![Watch the Demo](https://img.shields.io/badge/▶_Watch_Demo-Google_Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/19ecEgygj6IUtQrBvLTRzAnjG0AkFybD6/view?usp=sharing)
+
+> 📺 **[Click here to watch the full demo video](https://drive.google.com/file/d/19ecEgygj6IUtQrBvLTRzAnjG0AkFybD6/view?usp=sharing)** - See the dashboard in action with real-time Bitcoin options pricing!
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
