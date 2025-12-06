@@ -94,7 +94,8 @@ class DataFetcher:
         """
         prices = pd.Series(df['Close'])
         returns = prices.pct_change()
-        rolling_std = returns.rolling(window=window).var()
+        # Use standard deviation (not variance) for volatility calculation
+        rolling_std = returns.rolling(window=window).std()
         df['rolling_vol'] = rolling_std * np.sqrt(trading_days)
         
         return df

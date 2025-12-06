@@ -29,10 +29,10 @@ def main():
     S0 = 90000          # Current BTC price
     r = 0.04            # Risk-free rate (4%)
     kappa = 2.0         # Mean reversion rate
-    theta = 0.04        # Long-term volatility
+    theta = 0.04        # Long-term volatility (annualized variance)
     sigma = 0.3         # Volatility of volatility
     rho = -0.7          # Correlation (leverage effect)
-    v0 = 0.04           # Initial volatility
+    v0 = 0.05           # Initial volatility (most recent, slightly higher than theta)
     
     print("Heston Model Parameters:")
     print(f"  S0 (Spot Price):          ${S0:,.2f}")

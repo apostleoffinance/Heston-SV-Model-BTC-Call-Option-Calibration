@@ -77,7 +77,8 @@ def main():
     theta = results['theta']
     sigma = results['sigma']
     rho = results['rho']
-    v0 = df['rolling_vol'].mean()
+    # Use most recent volatility for current pricing (not mean)
+    v0 = df['rolling_vol'].iloc[-1]
     
     # Step 5: Fetch options data
     print("Step 5: Fetching options data from Deribit...")

@@ -1,19 +1,22 @@
 # Project Summary: Heston Model BTC Options Pricing
 
 ## Overview
-This project has been restructured from a Jupyter notebook into a well-organized, modular Python application for pricing Bitcoin options using the Heston stochastic volatility model.
+This project has been restructured from a Jupyter notebook into a well-organized, modular Python application with a full-stack web dashboard for pricing Bitcoin options using the Heston stochastic volatility model.
 
 ## What Was Done
 
 ### 1. Project Structure Creation
-Created a professional directory structure:
+Created a professional directory structure with both CLI tools and a web dashboard:
 ```
 Heston_model_btc/
-├── src/
-│   ├── models/          # Core financial models
-│   └── utils/           # Utility functions
-├── outputs/             # Generated results
-├── tests/               # Unit tests (template)
+├── src/                 # Core Python modules
+│   ├── models/          # Financial models (Heston, MLE, Pricing)
+│   └── utils/           # Utilities (data fetching, visualization)
+├── backend/             # FastAPI REST API server
+│   └── app/main.py      # API endpoints
+├── frontend/            # React + TypeScript dashboard
+│   └── src/             # React components and API client
+├── outputs/             # Generated results (CLI)
 └── [Configuration files]
 ```
 
@@ -70,34 +73,82 @@ Heston_model_btc/
 - Historical price charts
 - Rolling volatility plots
 
-### 3. Orchestration Layer
+### 3. Web Dashboard (Full-Stack Application)
 
-**main.py**
+#### Backend (`backend/app/main.py`)
+- **FastAPI Application**: RESTful API server
+  - Health check endpoint
+  - Market data endpoint (BTC price, volatility, risk-free rate)
+  - Historical data endpoint
+  - Calibration endpoint (MLE parameter estimation)
+  - Simulation endpoint (Monte Carlo)
+  - Options pricing endpoint (Heston, MC, BS comparison)
+  - Options chain endpoint (live Deribit data)
+  - Error analysis endpoint
+  - CSV export endpoint
+  - CORS middleware for frontend communication
+  - Response caching for performance
+
+#### Frontend (`frontend/src/`)
+- **React + TypeScript + Vite**: Modern frontend stack
+  - **App.tsx**: Main dashboard orchestrator with analysis workflow
+  - **MarketDataCards**: Real-time BTC price and metrics display
+  - **ParametersPanel**: Calibrated Heston parameters visualization
+  - **MonteCarloChart**: Interactive Plotly chart for MC simulation
+  - **PricingComparisonChart**: Heston vs MC vs BS price comparison
+  - **ErrorAnalysis**: MAE, RMSE, MAPE metrics table with rankings
+  - **OptionsChainTable**: Live options data from Deribit
+  - **ConfigPanel**: User-adjustable analysis settings
+  - **Tailwind CSS**: Modern responsive styling
+  - **React Query**: Server state management
+  - **Axios**: API communication with proxy to backend
+
+### 4. Orchestration Layer
+
+**main.py** (CLI)
 - Complete end-to-end pipeline
 - Step-by-step execution with progress reporting
 - Automated result generation and saving
 - Error analysis and reporting
+
+**backend/app/main.py** (Web API)
+- REST API for all operations
+- Caching for performance
+- Error handling with HTTP status codes
 
 **example.py**
 - Quick-start example
 - Demonstrates basic API usage
 - Simplified workflow
 
-### 4. Configuration Management
+**demo.py**
+- Sample data demonstration
+- Works without internet connection
+
+### 5. Configuration Management
 
 **config.py**
 - Centralized parameter configuration
 - Easy customization without code changes
 - Well-documented settings
 
-### 5. Documentation
+**frontend/vite.config.ts**
+- Vite build configuration
+- Proxy setup for API calls
+
+### 6. Documentation
 
 **README.md**
 - Comprehensive project documentation
 - Installation instructions
-- Usage examples
+- Usage examples (CLI and Web Dashboard)
 - Methodology explanation
 - Results interpretation
+
+**DASHBOARD_README.md**
+- Web dashboard specific guide
+- Frontend/backend setup
+- API documentation
 - References
 
 **requirements.txt**

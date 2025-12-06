@@ -1,9 +1,11 @@
 # Bitcoin Options Pricing with Heston Stochastic Volatility Model
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104%2B-009688.svg)](https://fastapi.tiangolo.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A comprehensive implementation of the Heston stochastic volatility model for pricing Bitcoin options. This project includes parameter estimation via Maximum Likelihood Estimation (MLE), Monte Carlo simulation, and multiple option pricing methods.
+A comprehensive implementation of the Heston stochastic volatility model for pricing Bitcoin options, featuring both a command-line interface and a full-stack web dashboard with real-time market data.
 
 ## 📋 Table of Contents
 
@@ -12,6 +14,8 @@ A comprehensive implementation of the Heston stochastic volatility model for pri
 - [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Web Dashboard](#web-dashboard)
+- [API Reference](#api-reference)
 - [Methodology](#methodology)
 - [Results](#results)
 - [Contributing](#contributing)
@@ -30,15 +34,17 @@ This project implements a sophisticated options pricing framework using the **He
    - Heston semi-analytical formula
    - Monte Carlo simulation
    - Black-Scholes baseline
-5. **Generates Analytics**: Creates comprehensive visualizations and performance metrics
+5. **Web Dashboard**: Interactive React dashboard for real-time analysis and visualization
+6. **Generates Analytics**: Creates comprehensive visualizations and performance metrics
 
 ## ✨ Features
 
+- **Full-Stack Web Dashboard**: React + TypeScript frontend with FastAPI backend
 - **Modular Architecture**: Clean, well-organized code structure with separate modules for different functionalities
 - **Multiple Pricing Methods**: Compare Heston, Monte Carlo, and Black-Scholes approaches
 - **Robust Parameter Estimation**: MLE optimization with multiple initial guesses and methods
-- **Comprehensive Visualizations**: Generate publication-quality charts and graphs
-- **Real Market Data**: Integrates with Yahoo Finance and Deribit API
+- **Interactive Visualizations**: Real-time Plotly charts for simulation and pricing
+- **Live Market Data**: Integrates with Yahoo Finance and Deribit API
 - **Error Analysis**: Detailed pricing error metrics (MAE, RMSE, MAPE)
 - **Configurable**: Centralized configuration for easy parameter adjustment
 
@@ -48,31 +54,39 @@ This project implements a sophisticated options pricing framework using the **He
 Heston_model_btc/
 │
 ├── README.md                          # This file
-├── requirements.txt                   # Python dependencies
+├── requirements.txt                   # Core Python dependencies
 ├── config.py                          # Configuration parameters
-├── main.py                            # Main execution script
+├── main.py                            # Main CLI execution script
+├── start_dashboard.sh                 # Start full-stack dashboard
 │
-├── src/                               # Source code
-│   ├── __init__.py
+├── src/                               # Core Python modules
 │   ├── models/                        # Core models
-│   │   ├── __init__.py
 │   │   ├── heston_model.py           # Heston model implementation
 │   │   ├── option_pricer.py          # Option pricing methods
 │   │   └── mle_optimizer.py          # MLE parameter estimation
 │   │
 │   └── utils/                         # Utility modules
-│       ├── __init__.py
 │       ├── data_fetcher.py           # Data fetching and processing
 │       └── visualization.py          # Plotting and visualization
 │
-├── outputs/                           # Generated outputs
-│   ├── mc_all_paths.png              # Monte Carlo simulation paths
-│   ├── mc_sample_paths.png           # Sample paths with statistics
-│   ├── option_prices_comparison.png  # Pricing comparison chart
-│   ├── option_pricing_results.csv    # Detailed results table
-│   └── heston_parameters.csv         # Estimated parameters
+├── backend/                           # FastAPI Backend
+│   ├── requirements.txt              # Backend dependencies
+│   └── app/
+│       └── main.py                   # FastAPI application
 │
-├── tests/                             # Unit tests (optional)
+├── frontend/                          # React Frontend
+│   ├── package.json                  # Node.js dependencies
+│   ├── vite.config.ts                # Vite + proxy configuration
+│   └── src/
+│       ├── App.tsx                   # Main dashboard component
+│       ├── api/endpoints.ts          # API client
+│       ├── components/               # React components
+│       │   ├── charts/               # Plotly chart components
+│       │   ├── dashboard/            # Dashboard panels
+│       │   └── common/               # Reusable UI components
+│       └── types/                    # TypeScript interfaces
+│
+├── outputs/                           # Generated outputs (CLI)
 │
 └── Heston_BTC (1).ipynb              # Original Jupyter notebook (reference)
 ```
@@ -82,6 +96,7 @@ Heston_model_btc/
 ### Prerequisites
 
 - Python 3.8 or higher
+- Node.js 18+ and npm (for web dashboard)
 - pip package manager
 
 ### Setup
@@ -99,26 +114,51 @@ Heston_model_btc/
    venv\Scripts\activate     # On Windows
    ```
 
-3. **Install dependencies**:
+3. **Install core Python dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
+4. **For Web Dashboard - Install backend dependencies**:
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   cd ..
+   ```
+
+5. **For Web Dashboard - Install frontend dependencies**:
+   ```bash
+   cd frontend
+   npm install
+   cd ..
+   ```
+
 ## 💻 Usage
 
-### Quick Demo (Recommended First)
+### Option 1: Web Dashboard (Recommended)
 
-Run the demo script with sample parameters (no internet required):
+Start both backend and frontend servers:
 
+**Terminal 1 - Backend:**
 ```bash
-python demo.py
+cd backend
+source venv/bin/activate
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-This demonstrates the full functionality without requiring live data fetching.
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+```
 
-### Full Analysis (Requires Internet)
+Then open **http://localhost:5173** in your browser.
 
-Run the main script to execute the entire pipeline with live market data:
+### Option 2: Command Line Interface
+
+Run the main script to execute the entire pipeline:
 
 ```bash
 python main.py
@@ -131,33 +171,120 @@ This will:
 4. Price options using all methods
 5. Generate visualizations and save results to `outputs/`
 
-**Note:** If Yahoo Finance API is temporarily unavailable, use `demo.py` instead.
+### Option 3: Quick Demo (No Internet Required)
 
-### Advanced Usage
+```bash
+python demo.py
+```
 
-#### Using Individual Modules
+## 🌐 Web Dashboard
+
+The web dashboard provides an interactive interface for:
+
+### Features
+
+- **Real-Time Market Data**: Live BTC price, volatility, and risk-free rate
+- **Parameter Calibration**: One-click MLE calibration with configurable settings
+- **Monte Carlo Simulation**: Interactive chart with confidence bands
+- **Options Pricing**: Compare Heston, Monte Carlo, and Black-Scholes prices
+- **Error Analysis**: MAE, RMSE, MAPE metrics with method rankings
+- **Live Options Chain**: Real options data from Deribit exchange
+
+### Screenshots
+
+The dashboard includes:
+- Market data cards showing current BTC metrics
+- Calibrated Heston parameters panel
+- Interactive Monte Carlo simulation chart
+- Options pricing comparison chart
+- Error analysis table with rankings
+- Live options chain table
+
+## 📡 API Reference
+
+### Backend Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/health` | GET | Health check |
+| `/api/market-data` | GET | Current BTC price, volatility, risk-free rate |
+| `/api/historical?days=365` | GET | Historical price data |
+| `/api/calibrate` | POST | Calibrate Heston parameters via MLE |
+| `/api/simulate` | POST | Run Monte Carlo simulation |
+| `/api/price-options` | POST | Price options using all methods |
+| `/api/options-chain?currency=BTC` | GET | Fetch live options from Deribit |
+| `/api/expiry-dates?currency=BTC` | GET | Available expiration dates |
+| `/api/error-analysis` | POST | Calculate pricing error metrics |
+| `/api/export/csv` | GET | Export results as CSV |
+
+### Example API Usage
+
+```bash
+# Health check
+curl http://localhost:8000/api/health
+
+# Get market data
+curl http://localhost:8000/api/market-data
+
+# Calibrate model
+curl -X POST http://localhost:8000/api/calibrate \
+  -H "Content-Type: application/json" \
+  -d '{"start_date": "2020-01-01", "window": 21, "n_guesses": 5}'
+
+# Price options
+curl -X POST http://localhost:8000/api/price-options \
+  -H "Content-Type: application/json" \
+  -d '{
+    "strikes": [85000, 90000, 95000, 100000],
+    "trading_days": 30,
+    "kappa": 0.5, "theta": 0.37, "sigma": 0.16, "rho": -0.31, "v0": 0.5,
+    "S0": 90000, "r": 0.04
+  }'
+```
+
+### Advanced Usage - Python API
 
 ```python
 from src.utils.data_fetcher import DataFetcher
 from src.models.heston_model import HestonModel
 from src.models.option_pricer import OptionPricer
+from src.models.mle_optimizer import MLEOptimizer
+import numpy as np
 
 # Fetch data
 fetcher = DataFetcher(ticker='BTC-USD')
 df = fetcher.fetch_asset_data(start_date='2020-01-01')
+df = fetcher.calculate_rolling_volatility(df, window=21)
 
-# Create Heston model
-model = HestonModel(S0=50000, r=0.05, kappa=2.0, 
-                   theta=0.04, sigma=0.3, rho=-0.7, v0=0.04)
+# Get risk-free rate
+treasury = fetcher.fetch_treasury_data()
+r = treasury['risk_free_rate']
 
-# Run simulation
+# Calibrate parameters via MLE
+returns = np.log(df['Close'] / df['Close'].shift(1)).dropna().values
+volatility = df['rolling_vol'].dropna().values
+min_len = min(len(returns), len(volatility))
+
+optimizer = MLEOptimizer(returns[:min_len], volatility[:min_len], r)
+params = optimizer.estimate_parameters_robust()
+
+# Create Heston model and run simulation
+model = HestonModel(
+    S0=float(df['Close'].iloc[-1]), r=r,
+    kappa=params['k'], theta=params['theta'],
+    sigma=params['sigma'], rho=params['rho'], 
+    v0=float(df['rolling_vol'].iloc[-1])
+)
 S, V = model.heston_monte_carlo(T=1, N=252, mu=0.05, num_sims=1000)
 
 # Price options
-pricer = OptionPricer(S0=50000, r=0.05, kappa=2.0, 
-                     theta=0.04, sigma=0.3, rho=-0.7, v0=0.04,
-                     option_type='call', pricer='heston')
-prices = pricer.price_options([48000, 50000, 52000], trading_days=30)
+pricer = OptionPricer(
+    S0=model.S0, r=r,
+    kappa=params['k'], theta=params['theta'],
+    sigma=params['sigma'], rho=params['rho'], v0=model.v0,
+    option_type='call', pricer='heston'
+)
+prices = pricer.price_options([85000, 90000, 95000, 100000], trading_days=30)
 ```
 
 #### Customizing Configuration

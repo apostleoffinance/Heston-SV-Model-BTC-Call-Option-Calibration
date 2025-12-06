@@ -6,17 +6,20 @@ Heston_model_btc/
 ├── 📄 README.md                          # Main project documentation
 ├── 📄 QUICKSTART.md                      # Quick start guide for users
 ├── 📄 PROJECT_SUMMARY.md                 # Detailed project summary
+├── 📄 DASHBOARD_README.md                # Dashboard documentation
 ├── 📄 LICENSE                            # MIT License
-├── 📄 requirements.txt                   # Python dependencies
+├── 📄 requirements.txt                   # Python dependencies (core)
 ├── 📄 config.py                          # Configuration parameters
 ├── 📄 .gitignore                         # Git ignore rules
+├── 📄 start_dashboard.sh                 # Script to start full-stack app
 │
-├── 🐍 main.py                            # Main execution script (RUN THIS)
+├── 🐍 main.py                            # Main execution script (CLI)
 ├── 🐍 example.py                         # Quick example script
+├── 🐍 demo.py                            # Demo with sample data
 │
 ├── 📓 Heston_BTC (1).ipynb              # Original notebook (UNCHANGED)
 │
-├── 📁 src/                               # Source code directory
+├── 📁 src/                               # Core Python source code
 │   ├── __init__.py                      # Package initialization
 │   │
 │   ├── 📁 models/                        # Core financial models
@@ -30,8 +33,63 @@ Heston_model_btc/
 │       ├── data_fetcher.py              # Data fetching and processing
 │       └── visualization.py             # Plotting and visualization
 │
+├── 📁 backend/                           # FastAPI Backend Server
+│   ├── 📄 requirements.txt              # Backend Python dependencies
+│   ├── 📁 venv/                         # Backend virtual environment
+│   └── 📁 app/
+│       ├── __init__.py
+│       └── main.py                      # FastAPI application with all endpoints
+│
+├── 📁 frontend/                          # React Frontend Dashboard
+│   ├── 📄 package.json                  # Node.js dependencies
+│   ├── 📄 vite.config.ts                # Vite configuration with proxy
+│   ├── 📄 tailwind.config.js            # Tailwind CSS configuration
+│   ├── 📄 tsconfig.json                 # TypeScript configuration
+│   ├── 📄 index.html                    # HTML entry point
+│   │
+│   └── 📁 src/
+│       ├── main.tsx                     # React entry point
+│       ├── App.tsx                      # Main dashboard component
+│       │
+│       ├── 📁 api/
+│       │   └── endpoints.ts             # Axios API client
+│       │
+│       ├── 📁 components/
+│       │   ├── 📁 charts/               # Chart components
+│       │   │   ├── MonteCarloChart.tsx  # MC simulation visualization
+│       │   │   ├── PricingComparisonChart.tsx  # Options pricing chart
+│       │   │   └── index.ts
+│       │   │
+│       │   ├── 📁 common/               # Reusable UI components
+│       │   │   ├── Button.tsx
+│       │   │   ├── Card.tsx
+│       │   │   ├── Loader.tsx
+│       │   │   └── index.ts
+│       │   │
+│       │   ├── 📁 config/               # Configuration components
+│       │   │   └── ConfigPanel.tsx      # Analysis settings panel
+│       │   │
+│       │   ├── 📁 dashboard/            # Dashboard-specific components
+│       │   │   ├── MarketDataCards.tsx  # BTC price & metrics cards
+│       │   │   ├── ParametersPanel.tsx  # Heston parameters display
+│       │   │   ├── ErrorAnalysis.tsx    # Pricing error metrics
+│       │   │   ├── OptionsChainTable.tsx # Options data table
+│       │   │   └── index.ts
+│       │   │
+│       │   └── 📁 layout/               # Layout components
+│       │       └── Header.tsx
+│       │
+│       ├── 📁 hooks/
+│       │   └── useApi.ts                # React Query hooks
+│       │
+│       ├── 📁 styles/
+│       │   └── index.css                # Global styles (Tailwind)
+│       │
+│       └── 📁 types/
+│           └── index.ts                 # TypeScript interfaces
+│
 ├── 📁 outputs/                           # Generated outputs (created on run)
-│   ├── .gitkeep                         # Keep directory in git
+│   ├── .gitkeep
 │   ├── mc_all_paths.png                 # (Generated) All MC paths
 │   ├── mc_sample_paths.png              # (Generated) Sample paths
 │   ├── option_prices_comparison.png     # (Generated) Price comparison
@@ -52,11 +110,49 @@ Heston_model_btc/
 | `README.md` | Comprehensive documentation | Understanding the project |
 | `QUICKSTART.md` | Getting started guide | First time setup |
 | `PROJECT_SUMMARY.md` | Technical details | Deep dive into architecture |
-| `main.py` | Full pipeline execution | Running complete analysis |
+| `DASHBOARD_README.md` | Web dashboard guide | Using the frontend |
+| `main.py` | Full pipeline execution (CLI) | Running complete analysis |
 | `example.py` | Simple demo | Learning the API |
+| `demo.py` | Demo with sample data | Testing without internet |
 | `config.py` | Settings and parameters | Customizing behavior |
-| `requirements.txt` | Dependencies list | Installation |
+| `start_dashboard.sh` | Start full-stack app | Running the web dashboard |
+| `requirements.txt` | Core dependencies | Installation |
 | `LICENSE` | Legal terms | Understanding usage rights |
+
+### Backend (`backend/`)
+
+| File | Purpose |
+|------|---------|
+| `app/main.py` | FastAPI application with REST API endpoints |
+| `requirements.txt` | Backend-specific dependencies (FastAPI, uvicorn, etc.) |
+
+#### Backend API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/health` | GET | Health check |
+| `/api/market-data` | GET | Current BTC price, volatility, risk-free rate |
+| `/api/historical` | GET | Historical price data |
+| `/api/calibrate` | POST | Calibrate Heston parameters via MLE |
+| `/api/simulate` | POST | Run Monte Carlo simulation |
+| `/api/price-options` | POST | Price options using Heston, MC, BS |
+| `/api/options-chain` | GET | Fetch live options from Deribit |
+| `/api/expiry-dates` | GET | Available expiration dates |
+| `/api/error-analysis` | POST | Calculate pricing errors |
+| `/api/export/csv` | GET | Export results as CSV |
+
+### Frontend (`frontend/`)
+
+| Component | Purpose |
+|-----------|---------|
+| `App.tsx` | Main dashboard orchestrator |
+| `MarketDataCards.tsx` | Display BTC price and market metrics |
+| `ParametersPanel.tsx` | Show calibrated Heston parameters |
+| `MonteCarloChart.tsx` | Interactive MC simulation chart |
+| `PricingComparisonChart.tsx` | Compare Heston vs MC vs BS prices |
+| `ErrorAnalysis.tsx` | Pricing accuracy metrics table |
+| `OptionsChainTable.tsx` | Live options chain display |
+| `endpoints.ts` | API client with Axios |
 
 ### Source Code (`src/`)
 
@@ -78,23 +174,40 @@ Heston_model_btc/
 ## Module Dependencies
 
 ```
-main.py
-    │
-    ├─→ DataFetcher (utils.data_fetcher)
-    │   └─→ Uses: yfinance, requests, pandas
-    │
-    ├─→ MLEOptimizer (models.mle_optimizer)
-    │   └─→ Uses: scipy.optimize, numpy
-    │
-    ├─→ HestonModel (models.heston_model)
-    │   └─→ Uses: numpy, scipy.integrate
-    │
-    ├─→ OptionPricer (models.option_pricer)
-    │   ├─→ Inherits: HestonModel
-    │   └─→ Uses: scipy.stats
-    │
-    └─→ Visualizers (utils.visualization)
-        └─→ Uses: matplotlib, pandas
+┌─────────────────────────────────────────────────────────────────┐
+│                        WEB DASHBOARD                             │
+├─────────────────────────────────────────────────────────────────┤
+│  Frontend (React + TypeScript)                                   │
+│  └── Vite dev server (port 5173)                                │
+│      └── Proxy /api → Backend                                   │
+│                                                                  │
+│  Backend (FastAPI + Python)                                      │
+│  └── Uvicorn server (port 8000)                                 │
+│      └── Uses src/ modules                                      │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     CORE PYTHON MODULES                          │
+├─────────────────────────────────────────────────────────────────┤
+│  main.py / backend/app/main.py                                  │
+│      │                                                           │
+│      ├─→ DataFetcher (utils.data_fetcher)                       │
+│      │   └─→ Uses: yfinance, requests, pandas                   │
+│      │                                                           │
+│      ├─→ MLEOptimizer (models.mle_optimizer)                    │
+│      │   └─→ Uses: scipy.optimize, numpy                        │
+│      │                                                           │
+│      ├─→ HestonModel (models.heston_model)                      │
+│      │   └─→ Uses: numpy, scipy.integrate                       │
+│      │                                                           │
+│      ├─→ OptionPricer (models.option_pricer)                    │
+│      │   ├─→ Inherits: HestonModel                              │
+│      │   └─→ Uses: scipy.stats                                  │
+│      │                                                           │
+│      └─→ Visualizers (utils.visualization)                      │
+│          └─→ Uses: matplotlib, pandas                           │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ## Import Hierarchy

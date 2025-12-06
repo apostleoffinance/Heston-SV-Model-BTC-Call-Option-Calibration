@@ -146,7 +146,9 @@ class HestonModel:
         C = (0.5 * self.S0 + 
              (np.exp(-self.r * T) / np.pi) * integral1 - 
              K * np.exp(-self.r * T) * (0.5 + (1 / np.pi) * integral2))
-        return C
+        
+        # Ensure non-negative option price (numerical stability)
+        return max(C, 0.0)
     
     def heston_monte_carlo(self, T: float, N: int, mu: float, 
                           num_sims: int = 500) -> Tuple[np.ndarray, np.ndarray]:

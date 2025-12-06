@@ -168,16 +168,16 @@ class OptionVisualizer:
         """
         plt.figure(figsize=(12, 7))
         
-        if heston_prices:
+        if heston_prices is not None and len(heston_prices) > 0:
             plt.scatter(strikes, heston_prices, label='Heston', 
                        s=100, marker='o', alpha=0.7)
-        if bs_prices:
+        if bs_prices is not None and len(bs_prices) > 0:
             plt.scatter(strikes, bs_prices, label='Black-Scholes',
                        s=100, marker='s', alpha=0.7)
-        if mc_prices:
+        if mc_prices is not None and len(mc_prices) > 0:
             plt.scatter(strikes, mc_prices, label='Heston Monte Carlo',
                        s=100, marker='^', alpha=0.7)
-        if market_prices:
+        if market_prices is not None and len(market_prices) > 0:
             plt.scatter(strikes, market_prices, label='Market Data',
                        s=100, marker='D', alpha=0.7, color='red')
         
