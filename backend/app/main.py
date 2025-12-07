@@ -13,8 +13,12 @@ import csv
 import numpy as np
 import pandas as pd
 
-# Add parent directory to path for imports
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+# Add parent directories to path for imports (works both locally and on Railway)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+backend_dir = os.path.dirname(current_dir)
+project_root = os.path.dirname(backend_dir)
+sys.path.insert(0, project_root)
+sys.path.insert(0, backend_dir)
 
 from src.models.heston_model import HestonModel
 from src.models.option_pricer import OptionPricer, OptionAnalyzer
