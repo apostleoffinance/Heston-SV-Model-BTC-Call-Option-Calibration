@@ -18,7 +18,7 @@ const API_BASE = import.meta.env.VITE_API_URL
 
 const api = axios.create({
   baseURL: API_BASE,
-  timeout: 120000, // 2 minutes for long operations
+  timeout: 300000, // 5 minutes for long operations on free tier
 });
 
 export const endpoints = {
