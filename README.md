@@ -4,10 +4,20 @@
 [![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://reactjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104%2B-009688.svg)](https://fastapi.tiangolo.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=flat&logo=vercel)](https://heston-sv-model-btc-call-option-cal.vercel.app)
 
 A comprehensive implementation of the Heston stochastic volatility model for pricing Bitcoin options, featuring both a command-line interface and a full-stack web dashboard with real-time market data.
 
-## 🎬 Demo
+## 🌐 Live Demo
+
+🚀 **Try it now:** [https://heston-sv-model-btc-call-option-cal.vercel.app](https://heston-sv-model-btc-call-option-cal.vercel.app)
+
+| Component | URL | Status |
+|-----------|-----|--------|
+| **Frontend** | [heston-sv-model-btc-call-option-cal.vercel.app](https://heston-sv-model-btc-call-option-cal.vercel.app) | ![Vercel](https://img.shields.io/badge/Vercel-Live-success) |
+| **Backend API** | [heston-sv-model-btc-call-option-calibration-production.up.railway.app](https://heston-sv-model-btc-call-option-calibration-production.up.railway.app/api/health) | ![Railway](https://img.shields.io/badge/Railway-Live-success) |
+
+## 🎬 Video Demo
 
 [![Watch the Demo](https://img.shields.io/badge/▶_Watch_Demo-Google_Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/19ecEgygj6IUtQrBvLTRzAnjG0AkFybD6/view?usp=sharing)
 
