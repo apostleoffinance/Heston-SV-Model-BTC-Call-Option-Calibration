@@ -25,7 +25,7 @@ const App: React.FC = () => {
 
   // Configuration state
   const [config, setConfig] = useState<ConfigSettings>({
-    startDate: '2014-01-01',
+    startDate: '2023-01-01',
     window: 21,
     numSims: 1000,
     tradingDays: 252,
