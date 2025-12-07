@@ -16,6 +16,11 @@ matplotlib>=3.4.0
 # Options calculations
 py_vollib_vectorized>=0.1.1
 
+# FastAPI Backend
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.0.0
+
 # Optional: Jupyter notebook support (if running the original notebook)
 jupyter>=1.0.0
 notebook>=6.4.0
